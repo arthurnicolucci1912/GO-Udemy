@@ -8,6 +8,6 @@ func main() {
 
 	soma := notas[0] + notas[1] + notas[2] + notas[3]
 
-	fmt.Println("Notas", notas)
+	fmt.Println("Array de Notas: ", notas)
 	fmt.Println("Soma: ", soma)
 }
