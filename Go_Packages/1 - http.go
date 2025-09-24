@@ -16,6 +16,7 @@ func handler(response http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
+
 	//registra a função handler para todas as requisições no caminho raiz: "/"
 	http.HandleFunc("/", handler)
 	fmt.Println("O servidor está rodando em http://localhost:8080")
