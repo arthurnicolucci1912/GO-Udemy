@@ -20,15 +20,21 @@ func main() {
 
 	db.AutoMigrate(&Product{})
 
-	//isnerindo
+	//inserindo
 	products := []Product{
 		{Name: "ACER NITRO V5", Price: 5000},
 		{Name: "Xbox Series X", Price: 4500},
 	}
 	db.Create(&products)
 
+	//atualizando
 	var p Product
 	db.First(&p, 1)
 	p.Name = ("Xbox Series SEXO")
 	db.Save(&p)
+
+	//excluindo dados
+	var p2 Product
+	p.Name = ("Ps5")
+	db.Save(&p2)
 }
