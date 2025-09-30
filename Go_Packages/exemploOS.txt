@@ -1,0 +1,3 @@
+---
+ -->Esse arquivo de texto foi criando usando funções do package OS<-- 
+---
