@@ -9,30 +9,40 @@ import (
 
 func main() {
 	start := time.Now()
-	var price1, price2, price3 float64
+	priceChannel := make(chan float64)
 	var wg sync.WaitGroup //grupo de espera
 	wg.Add(3)             //3 goroutineS
 
+	//canal de comunicação das routines
+	go func() {
+		var totalPrices float64
+		countPrice := 0.0
+		for price := range priceChannel {
+			totalPrices += price
+			countPrice++
+			fmt.Printf("R$ %.2f\n", price)
+			fmt.Printf("Preço médio: R$ %.2f \n", totalPrices/countPrice)
+		}
+	}()
 	go func() {
 		defer wg.Done() //executa quando função foi executada
-		price1 = fetcher.FetchPriceFromSite1()
+		priceChannel <- fetcher.FetchPriceFromSite1()
 	}()
 
 	go func() {
 		defer wg.Done() //executa quando função foi executada
-		price2 = fetcher.FetchPriceFromSite2()
+		priceChannel <- fetcher.FetchPriceFromSite2()
 	}()
 
 	go func() {
 		defer wg.Done() //executa quando função foi executada
-		price3 = fetcher.FetchPriceFromSite3()
+		priceChannel <- fetcher.FetchPriceFromSite3()
 	}()
 
 	wg.Wait() //aguarda terminarem
 
-	fmt.Printf("RS %.2f\n", price1)
-	fmt.Printf("RS %.2f\n", price2)
-	fmt.Printf("RS %.2f\n", price3)
+	close(priceChannel) //fecha o canal para optimização
+
 	fmt.Printf("Tempo total: %s", time.Since(start))
 
 }
